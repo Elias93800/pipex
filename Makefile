@@ -10,7 +10,7 @@ DIR_OBJS		=	.objs
 
 SRCS_NAMES		=	main.c utils.c  
 
-SRCS_NAMES_B	=	main.c utils.c
+SRCS_NAMES_B	=	main.c utils.c heredoc.c
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 

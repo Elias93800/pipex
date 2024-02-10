@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 22:47:35 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/09 18:50:50 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/10 04:08:45 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	open_files(int i, t_data *data)
 	if (i == 0)
 		fd = open(data->infile, O_RDONLY);
 	if (i == data->nbcmd - 1)
-		fd = open(data->outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		fd = open(data->outfile, O_RDWR | O_CREAT | (O_TRUNC + data->here_doc
+					* 512), 0644);
 	if (fd < 0)
 	{
 		perror(data->cmd[(i != 0) - 1 | data->nbcmd]);
@@ -76,7 +77,7 @@ void	ft_process(t_data *data)
 		{
 			free(data->pid);
 			redirections(data, i);
-			if (i == 0 || i == data->nbcmd - 1)
+			if ((i == 0 || i == data->nbcmd - 1))
 				open_files(i, data);
 			ft_exec(data->cmd[i], data);
 			exit(127);
@@ -98,10 +99,14 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		return (0);
-	ft_init(argc, argv, envp, &data);
-	data.pid = malloc(sizeof(int) * data.nbcmd);
+	if (!ft_strcmp(argv[1], "here_doc"))
+	{
+		data.here_doc = 1;
+		heredoc(argv[2]);
+	}
+	ft_initdata(argc, argv, envp, &data);
 	ft_process(&data);
 	free(data.pid);
 	close(data.pipefd[0]);
-	close(data.pipefd[1]);
+	unlink("tmp");
 }

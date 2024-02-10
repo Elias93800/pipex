@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 03:56:58 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/09 06:44:05 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/10 03:58:54 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_findpath(char **envp)
 		return (NULL);
 	while (envp[i])
 	{
-		if (!strncmp(envp[i], "PATH=", 5))
+		if (!ft_strncmp(envp[i], "PATH=", 5))
 			return (envp[i]);
 		i++;
 	}
@@ -53,13 +53,16 @@ char	*get_path(char **envp, char *cmd)
 	return (free_tab(path), ft_strdup(cmd));
 }
 
-void	ft_init(int argc, char **argv, char **envp, t_data *data)
+void	ft_initdata(int argc, char **argv, char **envp, t_data *data)
 {
-	data->nbcmd = argc - 3;
-	data->infile = argv[1];
+	data->nbcmd = argc - (3 + data->here_doc);
+	data->infile = "tmp";
+	if (!data->here_doc)
+		data->infile = argv[1];
 	data->outfile = argv[argc - 1];
 	data->envp = envp;
-	data->cmd = &argv[2];
+	data->cmd = &argv[2 + data->here_doc];
+	data->pid = malloc(sizeof(int) * data->nbcmd);
 }
 
 void	ft_waitpid(t_data *data)

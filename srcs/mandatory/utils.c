@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 03:56:58 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/07 22:58:32 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/10 04:03:52 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*get_path(char **envp, char *cmd)
 	char	*tmp;
 
 	i = 0;
+	if (!cmd)
+		return (NULL);
 	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	path = ft_split(&ft_findpath(envp)[5], ':');
@@ -48,10 +50,10 @@ char	*get_path(char **envp, char *cmd)
 		free(tmp);
 		i++;
 	}
-	return (free_tab(path), NULL);
+	return (free_tab(path), ft_strdup(cmd));
 }
 
-void	ft_init(int argc, char **argv, char **envp, t_data *data)
+void	ft_initdata(int argc, char **argv, char **envp, t_data *data)
 {
 	data->nbcmd = argc - 3;
 	data->infile = argv[1];

@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 22:47:35 by emehdaou          #+#    #+#             */
-/*   Updated: 2024/02/09 07:22:29 by emehdaou         ###   ########.fr       */
+/*   Updated: 2024/02/10 04:01:06 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (0);
-	ft_init(argc, argv, envp, &data);
+	ft_initdata(argc, argv, envp, &data);
 	data.pid = malloc(sizeof(int) * data.nbcmd);
 	ft_process(&data);
 	free(data.pid);
